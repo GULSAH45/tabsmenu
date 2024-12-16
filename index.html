@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INARI TAKASHI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Arka plan müziği için audio elementi -->
+    <audio id="bgMusic" loop>
+      <source src="japanese-garden-139092.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="container">
+      <h1>INARI TAKASHI</h1>
+
+      <div class="tabs">
+        <button class="tab-button active" data-tab="soups">Çorbalar</button>
+        <button class="tab-button" data-tab="starters">
+          Sıcak Başlangıçlar
+        </button>
+        <button class="tab-button" data-tab="sushi">Sushi</button>
+        <button class="tab-button" data-tab="cocktails">İmza Kokteyller</button>
+      </div>
+
+      <div class="tab-content active" id="soups"></div>
+      <div class="tab-content" id="starters"></div>
+      <div class="tab-content" id="sushi"></div>
+      <div class="tab-content" id="cocktails"></div>
+
+      <div class="music-control">
+        <button id="musicToggle" class="music-button">🎵</button>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <script>
+      // Sayfa yüklendiğinde müziği başlat
+      document.addEventListener("DOMContentLoaded", function () {
+        const bgMusic = document.getElementById("bgMusic");
+        bgMusic.volume = 0.3; // Ses seviyesini %30'a ayarla
+
+        // Kullanıcı etkileşimi gerektiğinden, ilk tıklamada müziği başlat
+        document.body.addEventListener(
+          "click",
+          function () {
+            if (bgMusic.paused) {
+              bgMusic.play();
+            }
+          },
+          { once: true }
+        ); // once: true ile sadece bir kez çalışır
+      });
+    </script>
+  </body>
+</html>
