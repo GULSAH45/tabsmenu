@@ -1,0 +1,233 @@
+/* Contact Page Specific Styles */
+.contact-header {
+    text-align: center;
+    margin: 40px 0 60px;
+}
+
+.contact-header h1 {
+    margin-bottom: 10px;
+}
+
+.contact-subtitle {
+    font-size: 1.5rem;
+    color: #d4af37;
+    font-family: "Zen Old Mincho", serif;
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    gap: 40px;
+    margin-bottom: 80px;
+    padding: 20px;
+}
+
+.location-card {
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #d4af37;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 200px;
+    display: flex;
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.location-image {
+    width: 300px;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-right: 2px solid #d4af37;
+}
+
+.osaka-img {
+    background-image: url('https://images.unsplash.com/photo-1590559899731-a382839e5549?auto=format&fit=crop&w=800');
+}
+
+.okinawa-img {
+    background-image: url('https://images.unsplash.com/photo-1542640244-7e672d6cef4e?auto=format&fit=crop&w=800');
+}
+
+.peru-img {
+    background-image: url('https://images.unsplash.com/photo-1531968455001-5c5272a41129?auto=format&fit=crop&w=800');
+}
+
+.istanbul-img {
+    background-image: url('https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=800');
+}
+
+.location-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.location-content h2 {
+    color: #d4af37;
+    font-family: "Zen Dots", cursive;
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.location-details {
+    color: #fff;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+}
+
+.location-details p {
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+.location-details i {
+    color: #d4af37;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.map-button {
+    display: inline-block;
+    background-color: #d4af37;
+    color: black;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.map-button:hover {
+    background-color: #c19b2e;
+    color: black;
+}
+
+.map-button i {
+    margin-right: 8px;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-card i {
+    font-size: 2.5rem;
+    color: #d4af37;
+    margin-bottom: 20px;
+}
+
+.contact-card h3 {
+    color: #d4af37;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-family: "Zen Old Mincho", serif;
+}
+
+.contact-card p {
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Contact Form Styles */
+.contact-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    color: #d4af37;
+    margin-bottom: 10px;
+    font-family: "Zen Old Mincho", serif;
+    font-size: 1.2rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #d4af37;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+.form-group textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: #d4af37;
+    color: black;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "Zen Old Mincho", serif;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #c19b2e;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .locations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-container {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .contact-card {
+        min-width: 100%;
+        padding: 20px;
+    }
+    
+    .contact-form {
+        margin: 40px 20px;
+    }
+}

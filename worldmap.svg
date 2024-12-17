@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1000" height="500" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .land { fill: #2c2c2c; stroke: #d4af37; stroke-width: 0.5; }
+    .outline { fill: none; stroke: #d4af37; stroke-width: 1; }
+  </style>
+  <rect width="100%" height="100%" fill="#1a1a1a"/>
+  <path class="land" d="M892,177 L897,177 897,182 892,182z"/> <!-- Japan -->
+  <path class="land" d="M894,185 L899,185 899,190 894,190z"/> <!-- Okinawa -->
+  <path class="land" d="M235,310 L245,310 245,320 235,320z"/> <!-- Peru -->
+  <path class="land" d="M520,177 L525,177 525,182 520,182z"/> <!-- Turkey -->
+  <path class="outline" d="M0,0 L1000,0 1000,500 0,500z"/>
+</svg>
