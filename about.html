@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About - Inari Takashi</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="vertical-slogan">
       <div class="japanese-text">和の味、心の調和</div>
     </div>
@@ -19,9 +22,9 @@
           <span class="nav-separator">•</span>
           <a href="about.html" class="nav-link active">About</a>
           <span class="nav-separator">•</span>
-          <a href="#contact" class="nav-link">Contact</a>
+          <a href="contact" class="nav-link">Contact</a>
           <span class="nav-separator">•</span>
-          <a href="#location" class="nav-link">Location</a>
+          <a href="location" class="nav-link">Location</a>
         </div>
       </nav>
 
@@ -29,39 +32,83 @@
         <div class="about-content">
           <h2>Our Story</h2>
           <div class="story-text">
-            <p>In 2018, what started as a semester abroad in Lima, Peru, transformed into an unexpected culinary adventure that would shape my future. As a Japanese culinary student with a passion for traditional cooking, I found myself captivated by Peru's vibrant food scene and its unique connection to Japanese cuisine through the Nikkei community.</p>
-            
-            <p>Living on a tight student budget, I spent my weekends exploring local markets and small family-owned restaurants. It was in these humble settings that I discovered the magic of Peruvian-Japanese fusion. The way local chefs combined fresh Peruvian ingredients with Japanese techniques fascinated me. I was particularly struck by how they transformed traditional sushi rolls using local ají peppers and tropical fruits, creating something entirely new yet familiar.</p>
-            
-            <p>My breakthrough moment came during a university cooking competition where I presented a fusion dish: "Anticucho-style Yakitori" - Japanese chicken skewers marinated in a Peruvian-inspired sauce made with ají panca and soy sauce. The judges were impressed by this unexpected combination, and their enthusiasm sparked an idea. With encouragement from my professors and support from a small group of fellow students, I started hosting weekly pop-up dinners in my apartment.</p>
-            
-            <p>Word spread quickly through the university community, and soon my tiny apartment kitchen could barely keep up with the demand. Local food bloggers discovered our hidden gem, and their reviews caught the attention of a small business incubator. They offered me a chance to turn my pop-up into a proper restaurant, providing both guidance and initial funding.</p>
-            
-            <p>Today, Inari Takashi stands as a testament to that journey of discovery. Our menu features dishes that tell the story of two rich culinary traditions meeting in unexpected ways. From our signature Ceviche Ramen, which combines the citrusy freshness of Peruvian ceviche with the comfort of Japanese ramen, to our Miso-Rocoto glazed Black Cod, each dish represents a careful balance of flavors and techniques from both cultures.</p>
-            
-            <p>What began as a student's culinary experiment has evolved into a celebration of cultural fusion. We continue to innovate while respecting the traditions that inspired us, creating dishes that surprise and delight our guests. At Inari Takashi, every meal is an invitation to join us on this exciting journey of flavor discovery.</p>
+            <p>
+              In 2018, what started as a semester abroad in Lima, Peru,
+              transformed into an unexpected culinary adventure that would shape
+              my future. As a Japanese culinary student with a passion for
+              traditional cooking, I found myself captivated by Peru's vibrant
+              food scene and its unique connection to Japanese cuisine through
+              the Nikkei community.
+            </p>
+
+            <p>
+              Living on a tight student budget, I spent my weekends exploring
+              local markets and small family-owned restaurants. It was in these
+              humble settings that I discovered the magic of Peruvian-Japanese
+              fusion. The way local chefs combined fresh Peruvian ingredients
+              with Japanese techniques fascinated me. I was particularly struck
+              by how they transformed traditional sushi rolls using local ají
+              peppers and tropical fruits, creating something entirely new yet
+              familiar.
+            </p>
+
+            <p>
+              My breakthrough moment came during a university cooking
+              competition where I presented a fusion dish: "Anticucho-style
+              Yakitori" - Japanese chicken skewers marinated in a
+              Peruvian-inspired sauce made with ají panca and soy sauce. The
+              judges were impressed by this unexpected combination, and their
+              enthusiasm sparked an idea. With encouragement from my professors
+              and support from a small group of fellow students, I started
+              hosting weekly pop-up dinners in my apartment.
+            </p>
+
+            <p>
+              Word spread quickly through the university community, and soon my
+              tiny apartment kitchen could barely keep up with the demand. Local
+              food bloggers discovered our hidden gem, and their reviews caught
+              the attention of a small business incubator. They offered me a
+              chance to turn my pop-up into a proper restaurant, providing both
+              guidance and initial funding.
+            </p>
+
+            <p>
+              Today, Inari Takashi stands as a testament to that journey of
+              discovery. Our menu features dishes that tell the story of two
+              rich culinary traditions meeting in unexpected ways. From our
+              signature Ceviche Ramen, which combines the citrusy freshness of
+              Peruvian ceviche with the comfort of Japanese ramen, to our
+              Miso-Rocoto glazed Black Cod, each dish represents a careful
+              balance of flavors and techniques from both cultures.
+            </p>
+
+            <p>
+              What began as a student's culinary experiment has evolved into a
+              celebration of cultural fusion. We continue to innovate while
+              respecting the traditions that inspired us, creating dishes that
+              surprise and delight our guests. At Inari Takashi, every meal is
+              an invitation to join us on this exciting journey of flavor
+              discovery.
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <audio id="bgMusic" loop>
-      <source src="japanese.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const bgMusic = document.getElementById("bgMusic");
-        bgMusic.volume = 0.3;
-        
-        document.body.addEventListener(
-          "click",
-          function () {
-            bgMusic.play();
-          },
-          { once: true }
-        );
-      });
-    </script>
-</body>
+    <!-- Footer başlangıcı -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <a href="about.html" class="footer-link">
+          <i class="fas fa-book-open"></i>
+          <span>Hikayemiz</span>
+        </a>
+        <div class="footer-separator"></div>
+        <a href="contact.html" class="footer-link">
+          <i class="fas fa-paper-plane"></i>
+          <span>İletişim</span>
+        </a>
+      </div>
+    </footer>
+    <!-- Footer sonu -->
+  </body>
 </html>

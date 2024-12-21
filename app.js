@@ -1,6 +1,8 @@
-// Global olarak tanımlanması gereken fonksiyonlar
 window.addToCart = function (itemId, itemName, price, image) {
   let cart = JSON.parse(localStorage.getItem("cart")) || {};
+  const quantityElement = document.getElementById(`quantity-${itemId}`);
+  const minusButton = quantityElement.previousElementSibling;
+  const isFirstItem = Object.keys(cart).length === 0; // Sepet boş mu kontrol et
 
   if (cart[itemId]) {
     cart[itemId].quantity += 1;
@@ -17,9 +19,18 @@ window.addToCart = function (itemId, itemName, price, image) {
   updateCartCount();
   updateCartDisplay();
 
+  // Miktar göstergesini güncelle
+  quantityElement.textContent = cart[itemId].quantity;
+  minusButton.classList.add("active");
+
   const cartBtn = document.getElementById("cartBtn");
   cartBtn.classList.add("bounce");
   setTimeout(() => cartBtn.classList.remove("bounce"), 1000);
+
+  // İlk ürün eklendiyse sepeti aç
+  if (isFirstItem) {
+    toggleCart();
+  }
 };
 
 window.updateQuantity = function (itemId, newQuantity) {
@@ -35,416 +46,575 @@ window.updateQuantity = function (itemId, newQuantity) {
   updateCartDisplay();
 };
 
-// Ana uygulama kodu
-document.addEventListener("DOMContentLoaded", function () {
-  // Müzik kontrolü kurulumu
-  const musicToggle = document.getElementById("musicToggle");
-  const bgMusic = document.getElementById("bgMusic");
-  let isMusicPlaying = false;
+// Login/Signup modal için tab değiştirme
+function switchAuthTab(tabName) {
+  document.querySelectorAll(".auth-form").forEach((form) => {
+    form.classList.remove("active");
+  });
+  document.querySelectorAll(".auth-tab").forEach((tab) => {
+    tab.classList.remove("active");
+  });
 
-  if (musicToggle && bgMusic) {
-    musicToggle.addEventListener("click", () => {
-      if (isMusicPlaying) {
-        bgMusic.pause();
-        musicToggle.classList.remove("playing");
-      } else {
-        bgMusic.play();
-        musicToggle.classList.add("playing");
-      }
-      isMusicPlaying = !isMusicPlaying;
-    });
+  document.getElementById(tabName + "Form").classList.add("active");
+  event.target.classList.add("active");
+}
 
-    // Ses seviyesini ayarla
-    bgMusic.volume = 0.3;
+// menü kısmındaki tablar. Tab işlevselliği için
+//tek bir fonksiyon kullanacağız
+function switchTab(tabId) {
+  // Tüm tab içeriklerini gizle
+  document.querySelectorAll(".tab-content").forEach((content) => {
+    content.classList.remove("active");
+  });
+
+  // Tüm tab butonlarının aktif sınıfını kaldır
+  document.querySelectorAll(".tab-button").forEach((button) => {
+    button.classList.remove("active");
+  });
+
+  // Seçilen tab'ı ve butonunu aktif yap
+  const selectedTab = document.getElementById(tabId);
+  const selectedButton = document.querySelector(
+    `.tab-button[data-tab="${tabId}"]`
+  );
+
+  if (selectedTab) {
+    selectedTab.classList.add("active");
+  }
+  if (selectedButton) {
+    selectedButton.classList.add("active");
   }
 
-  // Menü öğesi oluşturma fonksiyonu
-  function createMenuItem(item, image) {
-    const price =
-      item.price || Math.floor(Math.random() * (800 - 200 + 1) + 200);
-    const itemId = `${item.name.replace(/\s+/g, "-").toLowerCase()}`; // Benzersiz ID oluştur
+  // Menü öğelerini render et
+  if (selectedTab) {
+    selectedTab.innerHTML = ""; // Mevcut içeriği temizle
+    menuItems[tabId].forEach((item) => {
+      selectedTab.innerHTML += createMenuItem(item, item.image);
+    });
+  }
+}
 
-    return `
-      <div class="menu-item">
-        <img src="${image}" alt="${item.name}">
-        <div class="item-info">
-          <h3>${item.name}</h3>
-          <p>${item.description}</p>
-          <div class="price-cart">
-            <span class="price">${price} ₺</span>
-            <button class="add-to-cart" onclick="addToCart('${itemId}', '${item.name}', ${price}, '${image}')">
+// Menü öğesi oluşturma fonksiyonu
+function createMenuItem(item, image) {
+  const itemId = `${item.name.replace(/\s+/g, "-").toLowerCase()}`;
+  return `
+    <div class="menu-item">
+      <img src="${image}" alt="${item.name}" >
+      <div class="item-info">
+        <h3>${item.name}</h3>
+        <p>${item.description}</p>
+        <div class="price-cart">
+          <span class="price">${item.price}</span>
+          <div class="quantity-controls">
+            <button class="quantity-btn minus" onclick="decreaseQuantity('${itemId}')">
+              <i class="fas fa-minus"></i>
+            </button>
+            <span id="quantity-${itemId}" class="quantity">0</span>
+            <button class="quantity-btn plus" onclick="addToCart('${itemId}', 
+            '${item.name}', '${item.price}', '${image}')">
               <i class="fas fa-plus"></i>
             </button>
           </div>
         </div>
       </div>
-    `;
-  }
+    </div>
+  `;
+}
 
-  // Menü öğeleri ve açıklamaları
-  const menuItems = {
-    soups: [
-      {
-        name: "Tom Yum",
-        description: "Tayland'ın meşhur ekşili baharatlı çorbası",
+// Menü öğeleri ve açıklamaları - tek bir menü verisi kullanacağız
+const menuItems = {
+  soups: [
+    {
+      name: "Miso Çorbası",
+      description:
+        "Geleneksel Japon dashi suyu, tofu, wakame yosunu ve yeşil soğan",
+      price: "120 ₺",
+      image: "./images/miso.jpg",
+    },
+    {
+      name: "Ramen",
+      description:
+        "Zengin tonkotsu et suyu, chashu domuz eti, ajitsuke yumurta ve taze noodle",
+      price: "180 ₺",
+      image: "./images/ramen.jpg",
+    },
+    {
+      name: "Tom Yum Kung",
+      description:
+        "Tayland'ın meşhur ekşili-baharatlı karides çorbası, mantar ve limon otu",
+      price: "160 ₺",
+      image: "./images/tomyung.jpg",
+    },
+    {
+      name: "Pho Bo",
+      description:
+        "Vietnam'ın geleneksel çorbası, dana eti, taze otlar ve pirinç erişte",
+      price: "150 ₺",
+      image: "./images/phobo.jpg",
+    },
+  ],
+  starters: [
+    {
+      name: "Gyoza",
+      description:
+        "Çıtır tabanlı, buharda pişmiş Japon mantısı, özel ponzu sos ile",
+      price: "140 ₺",
+      image: "./images/gyoza.jpg",
+    },
+    {
+      name: "Dim Sum",
+      description:
+        "Çeşitli iç malzemelerle hazırlanmış geleneksel Çin mantısı, özel sos ile",
+      price: "160 ₺",
+      image: "./images/dimsum.jpg",
+    },
+  ],
+  sushi: [
+    {
+      name: "Dragon Roll",
+      description:
+        "Karides tempura, yılan balığı, avokado ve unagi sos ile kaplanmış özel roll",
+      price: "280 ₺",
+      image: "./images/dragon.jpg",
+    },
+    {
+      name: "Rainbow Roll",
+      description:
+        "Kaliforniya roll üzeri çeşitli taze deniz mahsülleri ile kaplanmış özel suşi",
+      price: "260 ₺",
+      image: "./images/rainbow.jpg",
+    },
+    {
+      name: "Spicy Tuna Roll",
+      description:
+        "Baharatlı ton balığı, avokado ve Japonya'dan özel baharatlar",
+      price: "240 ₺",
+      image: "./images/spicy-tuna.jpg",
+    },
+  ],
+  cocktails: [
+    {
+      name: "Yuzu Spirit",
+      description:
+        "Japon yuzu meyvesi, sake, premium cin ve taze nane yaprakları ile hazırlanan serinletici kokteyl",
+      price: "180 ₺",
+      image: "./images/yuzu.jpg",
+    },
+  ],
+  desserts: [
+    {
+      name: "Tempura Dondurma",
+      description:
+        "Sıcak-soğuk kontrastı ile büyüleyen, kızarmış tempura hamuru içinde vanilyalı dondurma",
+      price: "140 ₺",
+      image: "./images/tempuraice.jpg",
+    },
+    {
+      name: "Mochi",
+      description:
+        "Geleneksel Japon tatlısı, pirinç hamuru içinde çeşitli dolgular (matcha, çilek, mango)",
+      price: "120 ₺",
+      image: "./images/mochi.jpg",
+    },
+  ],
+};
+
+// // Japon atasözleri listesi
+// const japaneseProverbs = [
+//   {
+//     japanese: "和の味、心の調和",
+//     meaning: "Harmony of Japanese Flavors, Peace of Mind",
+//   },
+//   {
+//     japanese: "一期一会",
+//     meaning: "Her karşılaşma bir kez yaşanır",
+//   },
+//   {
+//     japanese: "温故知新",
+//     meaning: "Eskiyi öğrenerek yeniyi anlamak",
+//   },
+//   {
+//     japanese: "七転び八起き",
+//     meaning: "Yedi kez düş, sekiz kez kalk",
+//   },
+//   {
+//     japanese: "和気藹々",
+//     meaning: "Uyumlu ve neşeli atmosfer",
+//   },
+//   {
+//     japanese: "笑門来福",
+//     meaning: "Gülümseyen kapıdan şans girer",
+//   },
+//   {
+//     japanese: "千里の道も一歩から",
+//     meaning: "Bin millik yolculuk tek adımla başlar",
+//   },
+//   {
+//     japanese: "花鳥風月",
+//     meaning: "Doğanın güzelliği (çiçek, kuş, rüzgar, ay)",
+//   },
+// ];
+
+let currentProverbIndex = 0;
+
+async function changeProverb() {
+  const proverbElement = document.getElementById("proverb");
+  // currentProverbIndex = (currentProverbIndex + 1) % japaneseProverbs.length;
+  // const newProverb = japaneseProverbs[currentProverbIndex];
+
+  const oldProverbs = localStorage.getItem("old-proverbs") ?? "[]";
+
+  const parsedVerbs = JSON.parse(oldProverbs);
+  const apiKey = "AIzaSyAOvDQki1LryqXxO6_Yz9oIlBhyu4fK324";
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      { name: "Ramen", description: "Özel ev yapımı noodle ve zengin et suyu" },
-      { name: "Pho", description: "Vietnam'ın geleneksel çorbası" },
-      { name: "Wonton Çorbası", description: "El yapımı mantı ve tavuk suyu" },
-    ],
-    starters: [
-      {
-        name: "Gyoza",
-        description:
-          "Çıtır tabanlı, buharda pişmiş Japon mantısı, özel ponzu sos ile",
-      },
-      {
-        name: "Mongolian Chicken",
-        description:
-          "Tatlı-acı soslu, susamlı Moğol usulü tavuk, taze yeşilliklerle",
-      },
-    ],
-    sushi: [
-      { name: "Dragon Roll", description: "Yılan balığı ve avokado ile" },
-      { name: "Rainbow Roll", description: "Karışık deniz mahsülleri" },
-      { name: "Spicy Tuna Roll", description: "Baharatlı ton balığı" },
-      { name: "Salmon Nigiri", description: "Taze somon ile" },
-      { name: "California Roll", description: "Yengeç, avokado ve salatalık" },
-    ],
-    cocktails: [
-      { name: "Sake Martini", description: "Japon sakesi ile" },
-      { name: "Lychee Mojito", description: "Taze liçi meyvesi ile" },
-      { name: "Matcha Sour", description: "Yeşil çay likörü ile" },
-      { name: "Wasabi Mary", description: "Wasabi ile harmanlanmış kokteyl" },
-      { name: "Yuzu Spritz", description: "Yuzu meyvesi ve prosecco ile" },
-    ],
-    desserts: [
-      {
-        name: "Tempura Dondurma",
-        description:
-          "Kızarmış çıtır tempura kaplamalı vanilyalı dondurma, karamel sos ile",
-        price: "95₺",
-      },
-      {
-        name: "Taiyaki Sundae",
-        description:
-          "Balık şeklinde waffle içinde vanilyalı dondurma, kırmızı fasulye ezmesi ve taze meyveler",
-        price: "110₺",
-      },
-      {
-        name: "Sakura Daifuku",
-        description:
-          "Kiraz çiçeği aromalı mochi içinde tatlı krem, sakura yaprakları ile süslenir",
-        price: "90₺",
-      },
-    ],
+      body: JSON.stringify({
+        contents: {
+          parts: [
+            {
+              text: `
+          Sen artık japonca atasözü dönen bir AI asistansın.
+          Bana sadece rastgele bir japonca atasözü dön.
+          Bu atasözü gerçek atasözü olsun.
+          ${parsedVerbs.join(
+            ", "
+          )} bunlar bana eskiden verdiklerin. Bunlardan biri olmasin.
+          Bana bunu japonca ve türkçe dön.
+          Bu iki dilde dönüşü || karakteriyle ayır.
+          Sadece bunu dön başka hiçbir şey ekleme.
+        `,
+            },
+          ],
+        },
+      }),
+    });
+
+    const data = await response.json();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    console.log(data);
+    const lngs = text.split("||");
+    const jpn = lngs[0];
+    const trk = lngs[1];
+    localStorage.setItem(
+      "old-proverbs",
+      JSON.stringify([...JSON.parse(oldProverbs), jpn])
+    );
+    // Fade out efekti
+    proverbElement.style.opacity = "0";
+
+    setTimeout(() => {
+      proverbElement.innerHTML = `${jpn}<br>
+  <span class="proverb-meaning">${trk}</span>`;
+      // Fade in efekti
+      proverbElement.style.opacity = "1";
+    }, 500);
+  } catch (error) {
+    console.log("Proverb değiştirirken bir hata oluştu:", error);
+  }
+}
+changeProverb();
+// Ana uygulama kodu
+document.addEventListener("DOMContentLoaded", () => {
+  const setupMusicControl = () => {
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+
+    if (!musicToggle || !bgMusic) return;
+
+    bgMusic.volume = 0.3;
+    musicToggle.onclick = async () => {
+      try {
+        bgMusic.paused ? await bgMusic.play() : bgMusic.pause();
+        musicToggle.classList.toggle("playing");
+      } catch (error) {
+        console.log("Müzik kontrolü hatası:", error);
+      }
+    };
   };
 
-  // Menü görselleri
-  const images = {
-    soups: [
-      "https://images.pexels.com/photos/2133989/pexels-photo-2133989.jpeg",
-      "https://images.pexels.com/photos/2664216/pexels-photo-2664216.jpeg",
-      "https://images.pexels.com/photos/1731535/pexels-photo-1731535.jpeg",
-      "https://images.pexels.com/photos/2365945/pexels-photo-2365945.jpeg",
-    ],
-    starters: [
-      "https://images.unsplash.com/photo-1541696432-82c6da8ce7bf",
-      "https://images.unsplash.com/photo-1525755662778-989d0524087e",
-    ],
-    sushi: [
-      "https://images.pexels.com/photos/858496/pexels-photo-858496.jpeg",
-      "https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg",
-      "https://images.pexels.com/photos/357756/pexels-photo-357756.jpeg",
-      "https://images.pexels.com/photos/359993/pexels-photo-359993.jpeg",
-      "https://images.pexels.com/photos/2323398/pexels-photo-2323398.jpeg",
-    ],
-    cocktails: [
-      "https://images.pexels.com/photos/602750/pexels-photo-602750.jpeg",
-      "https://images.pexels.com/photos/1194030/pexels-photo-1194030.jpeg",
-      "https://images.pexels.com/photos/3407778/pexels-photo-3407778.jpeg",
-      "https://images.pexels.com/photos/2531186/pexels-photo-2531186.jpeg",
-      "https://images.pexels.com/photos/2480828/pexels-photo-2480828.jpeg",
-    ],
-    desserts: [
-      "https://images.pexels.com/photos/2792186/pexels-photo-2792186.jpeg", // Tempura Dondurma
-      "https://images.pexels.com/photos/2144112/pexels-photo-2144112.jpeg", // Taiyaki Sundae
-      "https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg", // Sakura Daifuku
-    ],
-  };
+  setupMusicControl();
 
-  // Sepet öğeleri
-  let cartItems = {};
+  // Tab butonlarına click event listener ekle
+  document.querySelectorAll(".tab-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const tabId = button.getAttribute("data-tab");
+      switchTab(tabId);
+    });
+  });
 
-  // Sepet fonksiyonları
-  function openCartModal() {
-    const modal = document.getElementById("cartModal");
-    document.body.style.overflow = "hidden";
-    modal.classList.add("active");
-    updateCartDisplay();
-  }
+  // Sayfa yüklendiğinde çorba tab'ını aç
+  switchTab("soups");
 
-  function closeCartModal() {
-    const modal = document.getElementById("cartModal");
-    document.body.style.overflow = "";
-    modal.classList.remove("active");
-  }
+  // Sepet sayısını güncelle
+  updateCartCount();
+});
 
-  // Sepet görünümünü güncelle
-  function updateCartDisplay() {
-    const cartItemsContainer = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-    let total = 0;
+// Sepet butonuna tıklama olayı
+document.getElementById("cartBtn").addEventListener("click", function () {
+  const cartItems = document.getElementById("cartItems");
+  cartItems.innerHTML = ""; // Önceki ürünleri temizle
 
-    cartItemsContainer.innerHTML = "";
+  // Sepet içeriğini güncelle
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
+  let total = 0;
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-
-    if (Object.keys(cart).length === 0) {
-      cartItemsContainer.innerHTML = `
-        <div class="empty-cart">
-          <i class="fas fa-shopping-cart"></i>
-          <p>Sepetiniz boş</p>
-        </div>
-      `;
-    } else {
-      Object.keys(cart).forEach((itemId) => {
-        const item = cart[itemId];
-        total += item.price * item.quantity;
-
-        const itemElement = document.createElement("div");
-        itemElement.className = "cart-item";
-        itemElement.innerHTML = `
-          <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-          <div class="cart-item-details">
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-price">₺${item.price.toFixed(2)}</div>
-            <div class="cart-item-controls">
-              <button class="quantity-btn" onclick="updateQuantity('${itemId}', ${
-          item.quantity - 1
-        })">-</button>
-              <span class="cart-item-quantity">${item.quantity}</span>
-              <button class="quantity-btn" onclick="updateQuantity('${itemId}', ${
-          item.quantity + 1
-        })">+</button>
+  if (Object.keys(cart).length === 0) {
+    cartItems.innerHTML = `
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Sepetiniz boş</p>
             </div>
-          </div>
         `;
-        cartItemsContainer.appendChild(itemElement);
-      });
-    }
+  } else {
+    Object.keys(cart).forEach((itemId) => {
+      const item = cart[itemId];
+      total += item.price * item.quantity;
 
-    cartTotal.textContent = `₺${total.toFixed(2)}`;
-    updateCartCount();
+      const itemElement = document.createElement("div");
+      itemElement.className = "cart-item";
+      itemElement.innerHTML = `
+                <div class="cart-item-details">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">₺${item.price.toFixed(2)}</div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn" onclick="updateQuantity('${itemId}', ${
+        item.quantity - 1
+      })">-</button>
+                        <span class="cart-item-quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity('${itemId}', ${
+        item.quantity + 1
+      })">+</button>
+                    </div>
+                </div>
+            `;
+      cartItems.appendChild(itemElement);
+    });
   }
 
   // Sepet sayısını güncelle
-  function updateCartCount() {
-    const cartCount = document.getElementById("cartCount");
-    const cart = JSON.parse(localStorage.getItem("cart")) || {};
-    const totalItems = Object.values(cart).reduce(
-      (sum, item) => sum + item.quantity,
+  updateCartCount();
+});
+
+// Sepet sayısını güncelleyen fonksiyonu ekleyelim
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
+  const count = Object.values(cart).reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+  const cartCount = document.getElementById("cartCount");
+  if (cartCount) {
+    cartCount.textContent = count;
+    cartCount.style.display = count > 0 ? "block" : "none";
+  }
+}
+
+// Yardımcı fonksiyonlar
+const CartHelper = {
+  getCart() {
+    return JSON.parse(localStorage.getItem("cart")) || {};
+  },
+
+  setCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  },
+
+  updateCount() {
+    const cart = this.getCart();
+    const count = Object.values(cart).reduce(
+      (total, item) => total + item.quantity,
       0
     );
+    const cartCount = document.getElementById("cartCount");
+    if (cartCount) {
+      cartCount.textContent = count;
+      cartCount.style.display = count > 0 ? "block" : "none";
+    }
+  },
 
-    cartCount.textContent = totalItems;
-    cartCount.style.display = totalItems > 0 ? "block" : "none";
+  createItemHTML(item, itemId) {
+    // Ortak HTML template
+    return `
+      <div class="cart-item">
+        <div class="cart-item-image">
+          <img src="${item.image}" alt="${item.name}">
+        </div>
+        <div class="cart-item-details">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price-controls">
+            <div class="cart-item-price">${item.price} ₺</div>
+            <div class="cart-controls">
+              <div class="quantity-controls">
+                <button class="quantity-btn minus ${
+                  item.quantity > 1 ? "active" : ""
+                }" onclick="decreaseQuantity('${itemId}')">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <span class="quantity">${item.quantity}</span>
+                <button class="quantity-btn plus" onclick="addToCart('${itemId}', '${
+      item.name
+    }', '${item.price}', '${item.image}')">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              <button class="delete-item" onclick="removeFromCart('${itemId}')" title="Ürünü Sil">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+};
+
+function updateCartDisplay() {
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  const cart = CartHelper.getCart();
+  let total = 0;
+
+  cartItems.innerHTML =
+    Object.keys(cart).length === 0
+      ? '<div class="empty-cart-message">Sepetiniz boş</div>'
+      : Object.entries(cart)
+          .map(([itemId, item]) => {
+            total += item.price * item.quantity;
+            return CartHelper.createItemHTML(item, itemId);
+          })
+          .join("");
+
+  cartTotal.textContent = `${total.toFixed(2)} ₺`;
+}
+
+function decreaseQuantity(itemId) {
+  const cart = CartHelper.getCart();
+  const quantityElement = document.getElementById(`quantity-${itemId}`);
+  const minusButton = quantityElement.previousElementSibling;
+
+  if (cart[itemId]?.quantity > 0) {
+    cart[itemId].quantity -= 1;
+
+    if (cart[itemId].quantity === 0) {
+      delete cart[itemId];
+      minusButton.classList.remove("active");
+    } else {
+      minusButton.classList.add("active");
+    }
+
+    CartHelper.setCart(cart);
+    updateCartDisplay();
+    CartHelper.updateCount();
+
+    quantityElement.textContent = cart[itemId]?.quantity || 0;
+  }
+}
+
+function toggleCart() {
+  const cartContent = document.querySelector(".cart-content");
+  const cartOverlay = document.querySelector(".cart-overlay");
+  const cartBtn = document.getElementById("cartBtn");
+  const mainContainer = document.querySelector(".container");
+
+  // Sepet açıksa kapat
+  if (cartContent.classList.contains("active")) {
+    cartContent.style.transform = "translateX(100%)";
+    cartContent.style.opacity = "0";
+    cartOverlay.style.opacity = "0";
+
+    setTimeout(() => {
+      cartContent.classList.remove("active");
+      cartOverlay.classList.remove("active");
+      cartContent.style.visibility = "hidden";
+      // Ana içeriğin padding ve margin'ini kaldır
+      mainContainer.style.paddingRight = "";
+      mainContainer.style.marginRight = "";
+    }, 300);
+  }
+  // Sepet kapalıysa aç
+  else {
+    cartContent.style.visibility = "visible";
+    cartContent.classList.add("active");
+    cartOverlay.classList.add("active");
+    // Scroll çubuğu genişliği + 20px kadar padding ekle
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    mainContainer.style.paddingRight = `${scrollbarWidth}px`;
+    mainContainer.style.marginRight = "20px";
+
+    setTimeout(() => {
+      cartContent.style.transform = "translateX(0)";
+      cartContent.style.opacity = "1";
+      cartOverlay.style.opacity = "1";
+    }, 10);
   }
 
-  // Tab içeriğini yükle
-  function loadTabContent(category) {
-    const container = document.getElementById(category);
-    const items = menuItems[category];
-    const menuHTML = items
-      .map((item, index) => createMenuItem(item, images[category][index]))
-      .join("");
-    container.innerHTML = menuHTML;
-  }
+  // Sepet butonuna tıklandığında aktif class'ı ekle/çıkar
+  cartBtn.classList.toggle("active");
+}
 
-  // Tab işlevselliği
-  document.querySelectorAll(".tab-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      // Aktif tab'ı değiştir
-      document
-        .querySelectorAll(".tab-button")
-        .forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
+// Overlay'e tıklandığında sepeti kapat
+document.querySelector(".cart-overlay").addEventListener("click", toggleCart);
 
-      // İçeriği değiştir
-      const tabId = button.getAttribute("data-tab");
-      document.querySelectorAll(".tab-content").forEach((content) => {
-        content.classList.remove("active");
-        if (content.id === tabId) {
-          content.classList.add("active");
-          if (!content.innerHTML.trim()) {
-            loadTabContent(tabId);
-          }
-        }
-      });
-    });
-  });
+function updateQuantityDisplay(itemId, quantity) {
+  const quantityElement = document.getElementById(`quantity-${itemId}`);
+  quantityElement.textContent = quantity;
+  quantityElement.classList.add("changed");
+  setTimeout(() => quantityElement.classList.remove("changed"), 300);
+}
 
-  // İlk tab'ı yükle
-  loadTabContent("soups");
-
-  // Sayfa yüklendiğinde
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM loaded");
-
-    // Sepet butonuna tıklama olayı ekle
-    const cartBtn = document.getElementById("cartBtn");
-    console.log("Cart button:", cartBtn);
-
-    if (cartBtn) {
-      cartBtn.onclick = function () {
-        console.log("Cart button clicked");
-        openCartModal();
-      };
-    }
-
-    // Modal dışına tıklandığında kapat
-    const cartModal = document.getElementById("cartModal");
-    if (cartModal) {
-      cartModal.addEventListener("click", function (e) {
-        if (e.target === cartModal) {
-          closeCartModal();
-        }
-      });
-    }
-
-    // Kapatma butonuna tıklandığında kapat
-    const closeBtn = document.querySelector(".close-cart");
-    if (closeBtn) {
-      closeBtn.onclick = closeCartModal;
-    }
-
-    // İlk yüklemede sepet sayısını güncelle
+function clearCart() {
+  if (confirm("Sepetteki tüm ürünleri silmek istediğinize emin misiniz?")) {
+    localStorage.removeItem("cart");
+    updateCartDisplay();
     updateCartCount();
-  });
 
-  // Intersection Observer için animasyon
-  const animateOnScroll = () => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-      }
-    );
-
-    // Menü kartlarını gözlemle
-    document.querySelectorAll(".menu-card").forEach((card) => {
-      observer.observe(card);
-      card.style.opacity = "0";
-      card.style.transform = "translateY(20px)";
+    // Tüm miktar göstergelerini sıfırla
+    document.querySelectorAll(".quantity").forEach((el) => {
+      el.textContent = "0";
     });
 
-    // Lokasyon kartlarını gözlemle
-    document.querySelectorAll(".location-info").forEach((loc) => {
-      observer.observe(loc);
-      loc.style.opacity = "0";
-      loc.style.transform = "translateY(20px)";
+    // Tüm eksi butonları devre dışı bırak
+    document.querySelectorAll(".quantity-btn.minus").forEach((btn) => {
+      btn.classList.remove("active");
     });
-  };
-
-  // Smooth scroll fonksiyonu
-  const smoothScroll = (target) => {
-    const element = document.querySelector(target);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 100,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Scroll to top butonu
-  const scrollButton = document.createElement("button");
-  scrollButton.className = "scroll-to-top";
-  scrollButton.innerHTML = "↑";
-  document.body.appendChild(scrollButton);
-
-  window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) {
-      scrollButton.classList.add("visible");
-    } else {
-      scrollButton.classList.remove("visible");
-    }
-  });
-
-  scrollButton.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  });
-
-  // Tab değişim animasyonu
-  const animateTabChange = (oldTab, newTab) => {
-    if (oldTab) {
-      oldTab.style.opacity = "0";
-      setTimeout(() => {
-        oldTab.style.display = "none";
-        newTab.style.display = "grid";
-        setTimeout(() => {
-          newTab.style.opacity = "1";
-        }, 50);
-      }, 300);
-    } else {
-      newTab.style.display = "grid";
-      newTab.style.opacity = "1";
-    }
-  };
-
-  // Sayfa yüklendiğinde animasyonları başlat
-  document.addEventListener("DOMContentLoaded", () => {
-    animateOnScroll();
-
-    // Sayfa geçiş animasyonu
-    document.body.classList.add("page-transition");
-  });
-
-  // Login/Signup tab switching
-  function switchTab(tab) {
-    // Remove active class from all tabs and forms
-    document
-      .querySelectorAll(".auth-tab")
-      .forEach((t) => t.classList.remove("active"));
-    document
-      .querySelectorAll(".auth-form")
-      .forEach((f) => f.classList.remove("active"));
-
-    // Add active class to selected tab and form
-    if (tab === "login") {
-      document.querySelector(".auth-tab:first-child").classList.add("active");
-      document.querySelector("#loginForm").classList.add("active");
-    } else {
-      document.querySelector(".auth-tab:last-child").classList.add("active");
-      document.querySelector("#signupForm").classList.add("active");
-    }
   }
+}
 
-  // Sayfa geçişleri için
-  document.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", function (e) {
-      if (this.getAttribute("href").endsWith(".html")) {
-        e.preventDefault();
-        document.body.style.opacity = "0";
-        setTimeout(() => {
-          window.location.href = this.getAttribute("href");
-        }, 200);
+function goToCheckout() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
+  if (Object.keys(cart).length === 0) {
+    alert("Sepetiniz boş!");
+    return;
+  }
+  // Buraya ödeme sayfasına yönlendirme eklenecek
+  alert("Ödeme sayfasına yönlendiriliyorsunuz...");
+  // window.location.href = "/checkout.html";
+}
+
+function removeFromCart(itemId) {
+  const cart = JSON.parse(localStorage.getItem("cart")) || {};
+
+  if (cart[itemId]) {
+    delete cart[itemId];
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Menüdeki miktar göstergesini sıfırla
+    const quantityElement = document.getElementById(`quantity-${itemId}`);
+    if (quantityElement) {
+      quantityElement.textContent = "0";
+      const minusButton = quantityElement.previousElementSibling;
+      if (minusButton) {
+        minusButton.classList.remove("active");
       }
-    });
-  });
+    }
 
-  // Sayfa yüklendiğinde
-  document.addEventListener("DOMContentLoaded", function () {
-    document.body.style.opacity = "1";
-  });
-});
+    updateCartDisplay();
+    updateCartCount();
+  }
+}

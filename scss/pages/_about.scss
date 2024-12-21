@@ -1,0 +1,53 @@
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-large;
+
+  .about-content {
+    @include glass-effect;
+    border-radius: 15px;
+    padding: $spacing-large;
+    color: $secondary-color;
+
+    h2 {
+      color: $primary-color;
+      font-family: $font-secondary;
+      font-size: 2rem;
+      margin-bottom: $spacing-large;
+      text-align: center;
+    }
+
+    .story-text {
+      p {
+        margin-bottom: $spacing-medium;
+        line-height: $line-height-base;
+        font-size: 1.1rem;
+
+        &:first-of-type {
+          &::first-letter {
+            font-size: 3rem;
+            float: left;
+            padding-right: 8px;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  @include responsive($breakpoint-mobile) {
+    padding: $spacing-medium;
+
+    .about-content {
+      padding: $spacing-medium;
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .story-text p {
+        font-size: 1rem;
+      }
+    }
+  }
+} 

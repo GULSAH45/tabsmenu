@@ -4,27 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>INARI TAKASHI - Lokasyonlar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="location.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <style>
-      #map {
-        height: 400px;
-        width: 100%;
-        margin-bottom: 40px;
-        border: 2px solid #d4af37;
-        border-radius: 10px;
-      }
-      .leaflet-tile-pane {
-        filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-      }
-      .highlight {
-        background-color: #d4af37;
-        transition: background-color 0.5s ease-in-out;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
   </head>
   <body>
     <div class="container">
@@ -42,7 +37,9 @@
 
       <div class="location-header">
         <h1>Lokasyonlarımız</h1>
-        <p class="location-subtitle">世界中の味の旅 - Dünya Çapında Lezzet Yolculuğu</p>
+        <p class="location-subtitle">
+          世界中の味の旅 - Dünya Çapında Lezzet Yolculuğu
+        </p>
       </div>
 
       <div id="map"></div>
@@ -50,11 +47,16 @@
       <div class="location-details">
         <div class="location-info" id="osaka">
           <div class="location-image">
-            <img src="https://images.unsplash.com/photo-1590559899731-a382839e5549" alt="Osaka Restaurant">
+            <img
+              src="https://images.unsplash.com/photo-1590559899731-a382839e5549"
+              alt="Osaka Restaurant"
+            />
           </div>
           <div class="info-content">
             <h2>Osaka</h2>
-            <p class="address">1-1-88 Oyodonaka, Kita-ku<br>Osaka 531-0076, Japan</p>
+            <p class="address">
+              1-1-88 Oyodonaka, Kita-ku<br />Osaka 531-0076, Japan
+            </p>
             <div class="info-grid">
               <div class="info-item">
                 <i class="fas fa-clock"></i>
@@ -78,11 +80,16 @@
 
         <div class="location-info" id="okinawa">
           <div class="location-image">
-            <img src="https://images.unsplash.com/photo-1542640244-7e672d6cef4e" alt="Okinawa Restaurant">
+            <img
+              src="https://images.unsplash.com/photo-1542640244-7e672d6cef4e"
+              alt="Okinawa Restaurant"
+            />
           </div>
           <div class="info-content">
             <h2>Okinawa</h2>
-            <p class="address">3-1-12 Makishi, Naha City<br>Okinawa 900-0013, Japan</p>
+            <p class="address">
+              3-1-12 Makishi, Naha City<br />Okinawa 900-0013, Japan
+            </p>
             <div class="info-grid">
               <div class="info-item">
                 <i class="fas fa-clock"></i>
@@ -106,11 +113,16 @@
 
         <div class="location-info" id="peru">
           <div class="location-image">
-            <img src="https://images.unsplash.com/photo-1531968455001-5c5272a41129" alt="Peru Restaurant">
+            <img
+              src="https://images.unsplash.com/photo-1531968455001-5c5272a41129"
+              alt="Peru Restaurant"
+            />
           </div>
           <div class="info-content">
             <h2>Lima, Peru</h2>
-            <p class="address">Av. La Mar 1337, Miraflores<br>Lima 15074, Peru</p>
+            <p class="address">
+              Av. La Mar 1337, Miraflores<br />Lima 15074, Peru
+            </p>
             <div class="info-grid">
               <div class="info-item">
                 <i class="fas fa-clock"></i>
@@ -134,11 +146,16 @@
 
         <div class="location-info" id="istanbul">
           <div class="location-image">
-            <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200" alt="Istanbul Restaurant">
+            <img
+              src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200"
+              alt="Istanbul Restaurant"
+            />
           </div>
           <div class="info-content">
             <h2>İstanbul</h2>
-            <p class="address">Kuruçeşme Mah. Muallim Naci Cad.<br>No: 64/A Beşiktaş, İstanbul</p>
+            <p class="address">
+              Kuruçeşme Mah. Muallim Naci Cad.<br />No: 64/A Beşiktaş, İstanbul
+            </p>
             <div class="info-grid">
               <div class="info-item">
                 <i class="fas fa-clock"></i>
@@ -162,114 +179,27 @@
       </div>
     </div>
 
+    <!-- Footer başlangıcı -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <a href="about.html" class="footer-link">
+          <i class="fas fa-book-open"></i>
+          <span>Hikayemiz</span>
+        </a>
+        <div class="footer-separator"></div>
+        <a href="contact.html" class="footer-link">
+          <i class="fas fa-paper-plane"></i>
+          <span>İletişim</span>
+        </a>
+      </div>
+    </footer>
+    <!-- Footer sonu -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="app.js"></script>
-    <script>
-      // Initialize the map
-      var map = L.map('map', {
-        zoomControl: true,
-        scrollWheelZoom: true,
-        minZoom: 2
-      }).setView([30, 0], 2);
-
-      // Add terrain map tiles with user's token
-      L.tileLayer('https://tile.jawg.io/jawg-terrain/{z}/{x}/{y}{r}.png?access-token=kfRL4rOIWTzc6Az1L1sjbO2sSFUPJ9OCg2pTJXIsKydUtAj7J5dSdht0LBYY1qyO', {
-        attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; Jawg</a>',
-        minZoom: 0,
-        maxZoom: 22
-      }).addTo(map);
-
-      // Apply custom styling to map
-      document.querySelector('.leaflet-tile-pane').style.filter = 'brightness(0.8) contrast(1.2) saturate(1.2)';
-
-      // Custom icon for markers
-      var customIcon = L.icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-      });
-
-      // Add markers for each location
-      var locations = [
-        {
-          name: 'Osaka',
-          coords: [34.6937, 135.5023],
-          address: '1-1-88 Oyodonaka, Kita-ku<br>Osaka 531-0076, Japan'
-        },
-        {
-          name: 'Okinawa',
-          coords: [26.2124, 127.6809],
-          address: '3-1-12 Makishi, Naha City<br>Okinawa 900-0013, Japan'
-        },
-        {
-          name: 'Lima',
-          coords: [-12.0464, -77.0428],
-          address: 'Av. La Mar 1337, Miraflores<br>Lima 15074, Peru'
-        },
-        {
-          name: 'İstanbul',
-          coords: [41.0082, 28.9784],
-          address: 'Kuruçeşme Mah. Muallim Naci Cad.<br>No: 64/A Beşiktaş, İstanbul'
-        }
-      ];
-
-      // Add markers with custom popups
-      locations.forEach(function(loc) {
-        var popup = L.popup({
-          className: 'custom-popup',
-          closeButton: false
-        }).setContent(
-          '<div class="popup-content">' +
-          '<h3>' + loc.name + '</h3>' +
-          '<p>' + loc.address + '</p>' +
-          '<button class="scroll-to-location" data-location="' + loc.name.toLowerCase() + '">Detayları Gör</button>' +
-          '</div>'
-        );
-
-        var marker = L.marker(loc.coords, {icon: customIcon})
-          .bindPopup(popup)
-          .addTo(map);
-
-        // Add click event to marker
-        marker.on('click', function() {
-          setTimeout(function() {
-            var locationId = loc.name.toLowerCase();
-            if (locationId === 'istanbul') locationId = 'istanbul';
-            else if (locationId === 'lima') locationId = 'peru';
-            
-            var element = document.getElementById(locationId);
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              element.classList.add('highlight');
-              setTimeout(function() {
-                element.classList.remove('highlight');
-              }, 2000);
-            }
-          }, 300);
-        });
-      });
-
-      // Add click event for popup buttons
-      document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('scroll-to-location')) {
-          var locationId = e.target.getAttribute('data-location');
-          if (locationId === 'istanbul') locationId = 'istanbul';
-          else if (locationId === 'lima') locationId = 'peru';
-          
-          var element = document.getElementById(locationId);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            element.classList.add('highlight');
-            setTimeout(function() {
-              element.classList.remove('highlight');
-            }, 2000);
-          }
-        }
-      });
-    </script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="location.js"></script>
   </body>
 </html>

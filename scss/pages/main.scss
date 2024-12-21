@@ -1,0 +1,34 @@
+// Abstracts
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+// Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $primary-font;
+  font-size: $base-font-size;
+  line-height: 1.6;
+}
+
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.419), rgba(0, 0, 0, 0.332)),
+    url("edo.jpg") center/cover fixed;
+  color: $primary-color;
+  min-height: 100vh;
+  @include hide-scrollbar;
+}
+
+// Components
+@import '../components/buttons';
+
+// Pages
+@import 'about';
+@import 'contact';
+@import 'location';
+
+// Media Queries
+@media (max-width: $mobile) {
+  // Mobile styles
+} 

@@ -1,0 +1,79 @@
+/* Footer stilleri */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 15px 0;
+  z-index: 900;
+}
+
+.footer-content {
+  max-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.footer-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #d4af37;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 5px 15px;
+}
+
+.footer-link i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.footer-link span {
+  font-size: 0.9rem;
+  font-family: "Zen Old Mincho", serif;
+  letter-spacing: 1px;
+}
+
+.footer-link:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-link:hover i {
+  transform: scale(1.1);
+}
+
+.footer-separator {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, #d4af37, transparent);
+}
+
+/* Ana içerik için padding ekleyelim */
+.container {
+  padding-bottom: 80px; /* Footer'ın yüksekliği + ekstra boşluk */
+}
+
+/* Mobil için responsive ayarlar */
+@media (max-width: 768px) {
+  .footer-content {
+    max-width: 250px;
+    gap: 20px;
+  }
+
+  .footer-link i {
+    font-size: 1.1rem;
+  }
+
+  .footer-link span {
+    font-size: 0.8rem;
+  }
+}
