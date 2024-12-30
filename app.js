@@ -265,7 +265,7 @@ async function changeProverb() {
   const oldProverbs = localStorage.getItem("old-proverbs") ?? "[]";
 
   const parsedVerbs = JSON.parse(oldProverbs);
-  const apiKey = "AIzaSyAOvDQki1LryqXxO6_Yz9oIlBhyu4fK324";
+
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
   try {
     const response = await fetch(endpoint, {
