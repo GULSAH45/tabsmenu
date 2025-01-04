@@ -1,3 +1,5 @@
+const apiKey = "AIzaSyAOvDQki1LryqXxO6_Yz9oIlBhyu4fK324";
+
 window.addToCart = function (itemId, itemName, price, image) {
   let cart = JSON.parse(localStorage.getItem("cart")) || {};
   const quantityElement = document.getElementById(`quantity-${itemId}`);
